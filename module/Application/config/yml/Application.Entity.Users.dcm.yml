@@ -1,0 +1,37 @@
+Application\Entity\Users:
+    type: entity
+    table: users
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        pass:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        hash:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        disabled:
+            type: boolean
+            nullable: true
+            options:
+                default: '1'
+    lifecycleCallbacks: {  }

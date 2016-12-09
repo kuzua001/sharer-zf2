@@ -9,6 +9,11 @@
     "homepage": "http://framework.zend.com/",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.2.8"
+        "zendframework/zendframework": "2.2.8",
+        "doctrine/doctrine-orm-module": "0.*",
+        "symfony/yaml": "^3.2"
+    },
+    "require-dev": {
+        "zendframework/zend-developer-tools": "0.*"
     }
 }
