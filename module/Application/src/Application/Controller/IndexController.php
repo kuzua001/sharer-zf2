@@ -12,19 +12,29 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Application\Entity\Files as Files;
+use Application\Form\FilesForm as FilesForm;
 
 class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
         /* @var $objectManager \Doctrine\ORM\EntityManager */
-        $objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+        //$objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
 
         // Получаем список всех 'файлов' и просто выводим его без отображениея view, чтобы понять, что происходит
-        $files = $objectManager->getRepository('\Application\Entity\Files')->findAll();
-        var_dump($files);
-        exit();
+        //$files = $objectManager->getRepository('\Application\Entity\Files')->findAll();
+        //var_dump($files);
+        //exit();
 
-        return new ViewModel();
+        $form = new FilesForm();
+
+        return new ViewModel([
+            'form' => $form
+        ]);
+    }
+
+    public function addAction()
+    {
+
     }
 }
