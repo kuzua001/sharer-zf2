@@ -41,29 +41,16 @@ return array(
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'home' => array(
-                'type'    => 'Literal',
+            'index' => array(
+                'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/index[/:action]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ),
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Application\Controller\Index',
                         'action'        => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
                     ),
                 ),
             ),
