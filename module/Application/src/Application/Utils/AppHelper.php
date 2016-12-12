@@ -9,6 +9,7 @@
 namespace Application\Utils;
 
 use Zend\Di\ServiceLocatorInterface;
+use Zend\Session\Container;
 
 class AppHelper {
     const FILE_PASS_HASH_SOLT = 'ASFKG(SRVMFsv{SFsfgg1';
@@ -113,5 +114,58 @@ class AppHelper {
         $file = $entityManager->getRepository('Application\Entity\Files')->find($id);
 
         return $file;
+    }
+
+
+    /**
+     * Авторизован ли пользователь
+     * @return mixed
+     */
+    public static function isAuth() {
+        $session = new Container('userarea');
+        return $session->offsetExists('authorized');
+    }
+
+    /**
+     * попытка авторизации
+     * @param $serviceLocator
+     * @param $name
+     * @param $password
+     * @return bool|Container
+     */
+    public static function login($serviceLocator, $name, $password) {
+        $entityManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
+        $users = $entityManager->getRepository('Application\Entity\Users')->findBy(['name' => $name]);
+        if (count($users) == 1) {
+            $user = $users[0];
+            if (md5($password . $user->getHash()) == $user->getPass()) {
+                $session = new Container('userarea');
+                $session->offsetSet('user_id', $user->getId());
+
+                return $session;
+            }
+        }
+
+        return false;
+    }
+
+    public static function logout() {
+        $session = new Container('userarea');
+        $session->offsetUnset('user_id');
+
+        return true;
+    }
+
+    /**
+     * Получить данные авторизованного пользователя
+     * @return bool|Container
+     */
+    public static function getAuthUser() {
+        $session = new Container('userarea');
+        if ($session->offsetExists('user_id')) {
+            return $session;
+        }
+
+        return false;
     }
 };

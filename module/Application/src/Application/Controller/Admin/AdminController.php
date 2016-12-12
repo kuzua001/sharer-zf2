@@ -22,12 +22,44 @@ class AdminController extends AbstractActionController
     {
         $form = new AuthForm();
 
-        return new ViewModel([
-            'form' => $form
+        $serviceLocator = $this->getServiceLocator();
+        $entityManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
+        $files = $entityManager->getRepository('Application\Entity\Files')->findAll();
+
+        $view = new ViewModel([
+            'form' => $form,
+            'files' => $files,
         ]);
+        $view->setTemplate('application/admin/admin/index.phtml');
+
+        return $view;
     }
 
-    public function addAction()
+    public function loginAction()
     {
+        $sl = $this->getServiceLocator();
+        $request = $this->getRequest();
+        $post = $request->getPost();
+
+        if (AppHelper::login($sl, $post['login'], $post['password'])) {
+            $view = $this->indexAction();
+        } else {
+            $form = new AuthForm();
+            $form->setData($post);
+
+            $view = new ViewModel([
+                'form' => $form,
+                'files' => $files,
+            ]);
+            $view->setTemplate('application/admin/admin/index.phtml');
+        }
+
+        return $view;
+    }
+
+    public function logoutAction()
+    {
+        AppHelper::logout();
+        return $this->indexAction();
     }
 }
