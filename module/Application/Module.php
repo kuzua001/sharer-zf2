@@ -19,6 +19,22 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        $sm = $e->getApplication()->getServiceManager();
+        $router = $sm->get('router');
+        $request = $sm->get('request');
+        $matchedRoute = $router->match($request);
+
+        $params = $matchedRoute->getParams();
+
+        $controller = $params['controller'];
+        $action = $params['action'];
+
+        $e->getViewModel()->setVariables(
+            array(
+                'CURRENT_CONTROLLER_NAME' => $controller,
+            )
+        );
     }
 
     public function getConfig()

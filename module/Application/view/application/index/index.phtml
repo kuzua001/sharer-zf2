@@ -21,6 +21,8 @@ $form->prepare();
     <div class="row">
         <?= $this->formRow($form->get('file')); ?>
         <?= $this->formElementErrors($form->get('file')); ?>
+    </div>
+    <div class="row centered">
         <?= $this->formSubmit($form->get('submit')); ?>
     </div>
 <?= $this->form()->closeTag();?>

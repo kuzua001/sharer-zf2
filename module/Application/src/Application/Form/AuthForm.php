@@ -9,12 +9,12 @@ namespace Application\Form;
 
 use Zend\Form\Form;
 
-class FilesForm extends Form
+class AuthForm extends Form
 {
     public function __construct($name = null)
     {
         // we want to ignore the name passed
-        parent::__construct('file');
+        parent::__construct('auth');
 
         $this->add(array(
             'name' => 'id',
@@ -22,10 +22,10 @@ class FilesForm extends Form
         ));
 
         $this->add(array(
-            'name' => 'protected',
-            'type' => 'Checkbox',
+            'name' => 'login',
+            'type' => 'Text',
             'options' => array(
-                'label' => 'Защитить паролем?',
+                'label' => 'Логин',
             ),
         ));
 
@@ -37,20 +37,11 @@ class FilesForm extends Form
             ),
         ));
 
-
-        $this->add(array(
-            'name' => 'file',
-            'type' => 'File',
-            'options' => array(
-                'label' => 'Файл',
-            ),
-        ));
-
         $this->add(array(
             'name' => 'submit',
             'type' => 'Submit',
             'attributes' => array(
-                'value' => 'Сохранить',
+                'value' => 'Авторизация',
                 'id' => 'submitbutton',
                 'class' => 'btn btn-default'
             ),

@@ -39,6 +39,11 @@ div.container a.brand {
 
 form .row {
     margin-top: 10px;
+    width: 500px;
+}
+
+form .row.centered {
+    text-align: center;
 }
 
 form .row span  {

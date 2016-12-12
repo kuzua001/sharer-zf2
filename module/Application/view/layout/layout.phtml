@@ -38,8 +38,8 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="<?php echo $this->url('index') ?>"><?php echo $this->translate('Главная') ?></a></li>
-                        <li class=""><a href="<?php echo $this->url('admin') ?>"><?php echo $this->translate('Администрирование') ?></a></li>
+                        <li class="<?= $CURRENT_CONTROLLER_NAME === 'Index' ? 'active' : ''?>"><a href="<?php echo $this->url('index') ?>"><?php echo $this->translate('Главная') ?></a></li>
+                        <li class="<?= $CURRENT_CONTROLLER_NAME === 'Admin' ? 'active' : ''?>"><a href="<?php echo $this->url('admin') ?>"><?php echo $this->translate('Администрирование') ?></a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

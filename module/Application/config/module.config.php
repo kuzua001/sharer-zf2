@@ -77,8 +77,8 @@ return array(
                 'options' => array(
                     'route'    => '/admin[/:controller[/:action]]',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Admin\Controller',
-                        'controller'    => 'Index',
+                        '__NAMESPACE__' => 'Application\Controller\Admin',
+                        'controller'    => 'Admin',
                         'action'        => 'index',
                     ),
                     'constraints' => [
@@ -112,6 +112,7 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\File' => 'Application\Controller\FileController',
+            'Application\Controller\Admin\Admin' => 'Application\Controller\Admin\AdminController',
         ),
     ),
     'view_manager' => array(
