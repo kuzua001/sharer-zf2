@@ -13,8 +13,7 @@ class FilesForm extends Form
 {
     public function __construct($name = null)
     {
-        // we want to ignore the name passed
-        parent::__construct('file');
+        parent::__construct('files-form');
 
         $this->add(array(
             'name' => 'id',

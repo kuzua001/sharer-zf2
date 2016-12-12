@@ -61,7 +61,7 @@ return array(
             'files' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/files/:link',
+                    'route'    => '/files/:link[/:action]',
                     'constraints' => array(
                         'link' => '[a-zA-Z0-9_-]*',
                     ),

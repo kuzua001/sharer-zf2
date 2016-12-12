@@ -100,4 +100,18 @@ class AppHelper {
 
         return false;
     }
+
+    /**
+     * Берет из базы данные файла по id, либо возвращает false
+     * @param $serviceLocator
+     * @param $id
+     * @return array|bool
+     */
+    public static function getFileById($serviceLocator, $id) {
+        /* @var $entityManager \Doctrine\ORM\EntityManager */
+        $entityManager = $serviceLocator->get('Doctrine\ORM\EntityManager');
+        $file = $entityManager->getRepository('Application\Entity\Files')->find($id);
+
+        return $file;
+    }
 };

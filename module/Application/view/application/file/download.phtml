@@ -1,0 +1,13 @@
+<?php
+$form->setAttribute('action', $this->url('files', array('action' => 'download', 'link' => $file->getLink())));
+?>
+<h1>Скачать файл</h1>
+<p>
+    Имя файла: <?= $file->getFileName() ?>
+</p>
+<?= $this->form()->openTag($form);?>
+    <?= $this->formHidden($form->get('id')); ?>
+    <div class="row centered">
+        <?= $this->formSubmit($form->get('submit')); ?>
+    </div>
+<?= $this->form()->closeTag();?>

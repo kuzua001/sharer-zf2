@@ -9,24 +9,18 @@ namespace Application\Form;
 
 use Zend\Form\Form;
 
-class AuthForm extends Form
+class DownloadForm extends Form
 {
     public function __construct($name = null)
     {
-        parent::__construct('auth-form');
+        parent::__construct('download-form');
 
         $this->add(array(
             'name' => 'id',
             'type' => 'Hidden',
         ));
 
-        $this->add(array(
-            'name' => 'login',
-            'type' => 'Text',
-            'options' => array(
-                'label' => 'Логин',
-            ),
-        ));
+        //$this->setAttribute('target', '_blank');
 
         $this->add(array(
             'name' => 'password',
@@ -40,7 +34,7 @@ class AuthForm extends Form
             'name' => 'submit',
             'type' => 'Submit',
             'attributes' => array(
-                'value' => 'Авторизация',
+                'value' => 'Скачать',
                 'id' => 'submitbutton',
                 'class' => 'btn btn-default'
             ),
