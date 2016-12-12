@@ -1,7 +1,6 @@
 <?php
 $title = 'Расшарить файл';
 $this->headTitle($title);
-//print $this->showMessages();
 ?>
     <h1><?php echo $this->escapeHtml($title); ?></h1>
 <?php
@@ -14,10 +13,14 @@ $form->prepare();
         <?= $this->formHidden($form->get('id')); ?>
     </div>
     <div class="row">
-        <?= $this->formRow($form->get('name')); ?>
+        <?= $this->formRow($form->get('protected')); ?>
+    </div>
+    <div class="row">
+        <?= $this->formRow($form->get('password')); ?>
     </div>
     <div class="row">
         <?= $this->formRow($form->get('file')); ?>
+        <?= $this->formElementErrors($form->get('file')); ?>
         <?= $this->formSubmit($form->get('submit')); ?>
     </div>
 <?= $this->form()->closeTag();?>

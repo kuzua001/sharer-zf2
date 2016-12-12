@@ -1,6 +1,7 @@
 <?php
 
 namespace Application\Entity;
+use Zend\Di\ServiceLocatorInterface;
 
 /**
  * Files
@@ -36,6 +37,15 @@ class Files
      * @var string
      */
     private $hash;
+
+    /**
+     * Получить полный путь к файлу
+     * @param $serviceLocator ServiceLocatorInterface
+     * @return string
+     */
+    public function getFullPath($serviceLocator) {
+        return getcwd() . $serviceLocator->get('config')['file_storage']['path'] . "/{$this->link}";
+    }
 
 
     /**
@@ -112,7 +122,7 @@ class Files
 
     /**
      * Get protected
-     *
+        *
      * @return boolean
      */
     public function getProtected()
@@ -167,5 +177,33 @@ class Files
     {
         return $this->hash;
     }
-}
+    /**
+     * @var string
+     */
+    private $fileType;
 
+
+    /**
+     * Set fileType
+     *
+     * @param string $fileType
+     *
+     * @return Files
+     */
+    public function setFileType($fileType)
+    {
+        $this->fileType = $fileType;
+
+        return $this;
+    }
+
+    /**
+     * Get fileType
+     *
+     * @return string
+     */
+    public function getFileType()
+    {
+        return $this->fileType;
+    }
+}

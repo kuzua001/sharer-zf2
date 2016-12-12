@@ -35,53 +35,59 @@ return array(
             )
         )
     ),
+
+    /* Конфиг пути к загружаемым файлам приложения */
+    'file_storage' => [
+        'path' => '/data/FileStorage'
+    ],
+
     'router' => array(
         'routes' => array(
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
             'index' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'may_terminate' => true,
+                    'route'    => '/[index[/:action]]',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Application\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+                    ),
+                    'constraints' => [
+                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ]
+                )
+            ),
+            'files' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/index[/:action]',
+                    'route'    => '/files/:link',
                     'constraints' => array(
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'link' => '[a-zA-Z0-9_-]*',
                     ),
                     'defaults' => array(
-                        'controller'    => 'Application\Controller\Index',
+                        '__NAMESPACE__' => 'Application\Controller',
+                        'controller'    => 'File',
                         'action'        => 'index',
                     ),
                 ),
             ),
-
             'admin' => array(
-                'type'    => 'Literal',
+                'type' => 'segment',
                 'options' => array(
-                    'route'    => '/admin',
+                    'route'    => '/admin[/:controller[/:action]]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Admin\Controller',
-                        'controller'    => 'Admin\Controller\Index',
+                        'controller'    => 'Index',
                         'action'        => 'index',
                     ),
+                    'constraints' => [
+                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ]
                 ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/admin/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        ),
+            )
+        )
     ),
     'service_manager' => array(
         'abstract_factories' => array(
@@ -104,7 +110,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+            'Application\Controller\Index' => 'Application\Controller\IndexController',
+            'Application\Controller\File' => 'Application\Controller\FileController',
         ),
     ),
     'view_manager' => array(

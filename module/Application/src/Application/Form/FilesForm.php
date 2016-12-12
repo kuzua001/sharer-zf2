@@ -20,13 +20,23 @@ class FilesForm extends Form
             'name' => 'id',
             'type' => 'Hidden',
         ));
+
         $this->add(array(
-            'name' => 'name',
-            'type' => 'Text',
+            'name' => 'protected',
+            'type' => 'Checkbox',
             'options' => array(
-                'label' => 'Название',
+                'label' => 'Защитить паролем?',
             ),
         ));
+
+        $this->add(array(
+            'name' => 'password',
+            'type' => 'Password',
+            'options' => array(
+                'label' => 'Пароль',
+            ),
+        ));
+
 
         $this->add(array(
             'name' => 'file',

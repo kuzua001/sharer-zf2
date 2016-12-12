@@ -35,3 +35,19 @@ div.container a.brand {
     margin-left: 0;
     padding: 8px 20px 12px 40px;
 }
+
+
+form .row {
+    margin-top: 10px;
+}
+
+form .row span  {
+    display: inline-block;
+    text-align: right;
+    width: 150px;
+    margin-right: 20px;
+}
+
+form .row input[type=file] {
+    display: inline-block;
+}

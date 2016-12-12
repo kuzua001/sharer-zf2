@@ -9,23 +9,18 @@
 
 namespace Application\Controller;
 
+use Application\Form\FilesFormInputFilter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Application\Entity\Files as Files;
 use Application\Form\FilesForm as FilesForm;
+use Application\Utils\AppHelper as AppHelper;
 
 class IndexController extends AbstractActionController
 {
+    const FILE_NAME = 'file';
+
     public function indexAction()
     {
-        /* @var $objectManager \Doctrine\ORM\EntityManager */
-        //$objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-
-        // Получаем список всех 'файлов' и просто выводим его без отображениея view, чтобы понять, что происходит
-        //$files = $objectManager->getRepository('\Application\Entity\Files')->findAll();
-        //var_dump($files);
-        //exit();
-
         $form = new FilesForm();
 
         return new ViewModel([
@@ -35,6 +30,39 @@ class IndexController extends AbstractActionController
 
     public function addAction()
     {
+        $request = $this->getRequest();
+        $form    = new FilesForm();
+        $filter  = new FilesFormInputFilter();
 
+        $post = array_merge_recursive(
+            $request->getPost()->toArray(),
+            $request->getFiles()->toArray()
+        );
+        if (!$post[self::FILE_NAME]['tmp_name']) {
+            $post[self::FILE_NAME] = null;
+        }
+
+        $form->setInputFilter($filter);
+        $form->setData($post);
+
+        if ($form->isValid()) {
+            $sl = $this->getServiceLocator();
+            $filePath = $_FILES[self::FILE_NAME]['tmp_name'];
+            $fileName = $_FILES[self::FILE_NAME]['name'];
+            $fileType = $_FILES[self::FILE_NAME]['type'];
+            $password = isset($_POST['protected']) && $_POST['protected'] ? $_POST['password'] : false;
+            $savedFileInfo = AppHelper::saveUploadedFile($sl, $filePath, $password, $fileName, $fileType);
+
+            return new ViewModel([
+                'link' => $this->url()->fromRoute('files', array('link' => $savedFileInfo['link']))
+            ]);
+        } else {
+            $view = new ViewModel([
+                'form' => $form
+            ]);
+            $view->setTemplate('application/index/index.phtml');
+
+            return $view;
+        }
     }
 }
