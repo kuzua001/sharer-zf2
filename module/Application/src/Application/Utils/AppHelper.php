@@ -123,7 +123,7 @@ class AppHelper {
      */
     public static function isAuth() {
         $session = new Container('userarea');
-        return $session->offsetExists('authorized');
+        return $session->offsetExists('user_id');
     }
 
     /**

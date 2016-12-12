@@ -28,7 +28,7 @@ $form->setAttribute('action', $this->url('admin', ['action' => 'login']));
 <?php } else { ?>
     <h2>Список файлов</h2>
     <!-- проблема с CSRF, но пока путь так -->
-    <a class="btn btn-default" href="<?= $this->url('admin', ['action' => 'logout'])?>"></a>
+    <a class="btn btn-default" href="<?= $this->url('admin', ['action' => 'logout'])?>">Выход</a>
     <table>
         <!-- нет паджинации, но пока тоже пусть так -->
         <?php foreach ($files as $file) { ?>

@@ -48,8 +48,8 @@ class AdminController extends AbstractActionController
             $form->setData($post);
 
             $view = new ViewModel([
-                'form' => $form,
-                'files' => $files,
+                'form'        => $form,
+                'failMessage' => 'Ошибка авторизации',
             ]);
             $view->setTemplate('application/admin/admin/index.phtml');
         }

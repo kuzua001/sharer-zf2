@@ -25,16 +25,18 @@ class Module
         $request = $sm->get('request');
         $matchedRoute = $router->match($request);
 
-        $params = $matchedRoute->getParams();
+        if ($matchedRoute) {
+            $params = $matchedRoute->getParams();
 
-        $controller = $params['controller'];
-        $action = $params['action'];
+            $controller = $params['controller'];
+            $action = $params['action'];
 
-        $e->getViewModel()->setVariables(
-            array(
-                'CURRENT_CONTROLLER_NAME' => $controller,
-            )
-        );
+            $e->getViewModel()->setVariables(
+                array(
+                    'CURRENT_CONTROLLER_NAME' => $controller,
+                )
+            );
+        }
     }
 
     public function getConfig()
