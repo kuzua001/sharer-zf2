@@ -62,6 +62,15 @@ class FileController extends AbstractActionController
             }
         }
 
+        // Увеличиваем счетчик скачиваний на единицу
+        // todo: вынести в отдельный метод класса Files, либо сделать класс FileManager, который
+        // todo: инициализирует EntityManager и инкапсулирует весь функцонал по файлам
+        $downloadCount = $file->getDownloadCount();
+        $file->setDownloadCount($downloadCount + 1);
+        $entityManager = $sl->get('\Doctrine\ORM\EntityManager');
+        $entityManager->persist($file);
+        $entityManager->flush();
+
         $view = $this->download($file);
 
         return $view;

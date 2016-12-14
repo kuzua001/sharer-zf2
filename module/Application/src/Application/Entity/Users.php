@@ -139,3 +139,4 @@ class Users
         return $this->disabled;
     }
 }
+

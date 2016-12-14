@@ -8,6 +8,7 @@
 
 namespace Application\Utils;
 
+use Symfony\Component\Console\Application;
 use Zend\Di\ServiceLocatorInterface;
 use Zend\Session\Container;
 
@@ -59,6 +60,7 @@ class AppHelper {
                 $file->setFileName($fileName);
                 $file->setFileType($fileType);
                 $file->setLink($link);
+                $file->setSize(filesize($targetPath));
 
                 if ($pass !== false) {
                     /* Делаем соль из ссылки файла и некоторой фиксированной соли */
@@ -106,7 +108,7 @@ class AppHelper {
      * Берет из базы данные файла по id, либо возвращает false
      * @param $serviceLocator
      * @param $id
-     * @return array|bool
+     * @return \Application\Entity\Files|bool
      */
     public static function getFileById($serviceLocator, $id) {
         /* @var $entityManager \Doctrine\ORM\EntityManager */

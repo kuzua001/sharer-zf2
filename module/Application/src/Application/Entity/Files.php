@@ -1,7 +1,6 @@
 <?php
 
 namespace Application\Entity;
-use Zend\Di\ServiceLocatorInterface;
 
 /**
  * Files
@@ -17,6 +16,11 @@ class Files
      * @var string
      */
     private $fileName;
+
+    /**
+     * @var string
+     */
+    private $fileType;
 
     /**
      * @var string
@@ -39,6 +43,16 @@ class Files
     private $hash;
 
     /**
+     * @var integer
+     */
+    private $size;
+
+    /**
+     * @var integer
+     */
+    private $downloadCount = '0';
+
+    /**
      * Получить полный путь к файлу
      * @param $serviceLocator ServiceLocatorInterface
      * @return string
@@ -46,7 +60,6 @@ class Files
     public function getFullPath($serviceLocator) {
         return getcwd() . $serviceLocator->get('config')['file_storage']['path'] . "/{$this->link}";
     }
-
 
     /**
      * Get id
@@ -80,6 +93,30 @@ class Files
     public function getFileName()
     {
         return $this->fileName;
+    }
+
+    /**
+     * Set fileType
+     *
+     * @param string $fileType
+     *
+     * @return Files
+     */
+    public function setFileType($fileType)
+    {
+        $this->fileType = $fileType;
+
+        return $this;
+    }
+
+    /**
+     * Get fileType
+     *
+     * @return string
+     */
+    public function getFileType()
+    {
+        return $this->fileType;
     }
 
     /**
@@ -122,7 +159,7 @@ class Files
 
     /**
      * Get protected
-        *
+     *
      * @return boolean
      */
     public function getProtected()
@@ -177,33 +214,53 @@ class Files
     {
         return $this->hash;
     }
-    /**
-     * @var string
-     */
-    private $fileType;
-
 
     /**
-     * Set fileType
+     * Set size
      *
-     * @param string $fileType
+     * @param integer $size
      *
      * @return Files
      */
-    public function setFileType($fileType)
+    public function setSize($size)
     {
-        $this->fileType = $fileType;
+        $this->size = $size;
 
         return $this;
     }
 
     /**
-     * Get fileType
+     * Get size
      *
-     * @return string
+     * @return integer
      */
-    public function getFileType()
+    public function getSize()
     {
-        return $this->fileType;
+        return $this->size;
+    }
+
+    /**
+     * Set downloadCount
+     *
+     * @param integer $downloadCount
+     *
+     * @return Files
+     */
+    public function setDownloadCount($downloadCount)
+    {
+        $this->downloadCount = $downloadCount;
+
+        return $this;
+    }
+
+    /**
+     * Get downloadCount
+     *
+     * @return integer
+     */
+    public function getDownloadCount()
+    {
+        return $this->downloadCount;
     }
 }
+
