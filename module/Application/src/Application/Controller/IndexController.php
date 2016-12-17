@@ -13,7 +13,7 @@ use Application\Form\FilesFormInputFilter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Application\Form\FilesForm as FilesForm;
-use Application\Utils\AppHelper as AppHelper;
+use Application\Core\AppHelper as AppHelper;
 
 class IndexController extends AbstractActionController
 {
@@ -46,12 +46,11 @@ class IndexController extends AbstractActionController
         $form->setData($post);
 
         if ($form->isValid()) {
-            $sl = $this->getServiceLocator();
             $filePath = $_FILES[self::FILE_NAME]['tmp_name'];
             $fileName = $_FILES[self::FILE_NAME]['name'];
             $fileType = $_FILES[self::FILE_NAME]['type'];
             $password = isset($_POST['protected']) && $_POST['protected'] ? $_POST['password'] : false;
-            $savedFileInfo = AppHelper::saveUploadedFile($sl, $filePath, $password, $fileName, $fileType);
+            $savedFileInfo = AppHelper::fileManagerInstance()->saveUploadedFile($filePath, $password, $fileName, $fileType);
 
             return new ViewModel([
                 'link' => $this->url()->fromRoute('files', array('link' => $savedFileInfo['link']))

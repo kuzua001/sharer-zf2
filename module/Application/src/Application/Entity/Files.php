@@ -1,6 +1,7 @@
 <?php
 
 namespace Application\Entity;
+use Application\Core\AppHelper;
 
 /**
  * Files
@@ -51,15 +52,6 @@ class Files
      * @var integer
      */
     private $downloadCount = '0';
-
-    /**
-     * Получить полный путь к файлу
-     * @param $serviceLocator ServiceLocatorInterface
-     * @return string
-     */
-    public function getFullPath($serviceLocator) {
-        return getcwd() . $serviceLocator->get('config')['file_storage']['path'] . "/{$this->link}";
-    }
 
     /**
      * Get id

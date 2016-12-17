@@ -10,21 +10,24 @@ namespace Application\Controller;
 use Application\Form\DownloadForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Application\Utils\AppHelper as AppHelper;
+use Application\Core\AppHelper as AppHelper;
+use Application\Entity\Files as Files;
 
 class FileController extends AbstractActionController
 {
-    public function indexAction() {
+    public function indexAction()
+    {
         $this->layout('layout/layout');
+        $fileManager = AppHelper::fileManagerInstance();
 
         $link = $this->params('link');
-        $sl = $this->getServiceLocator();
-        $file = AppHelper::getUploadedFile($sl, $link);
+        $file = $fileManager->getUploadedFile($link);
         if ($file !== false) {
             $form = new DownloadForm();
             $form->setData([
                 'id' => $file->getId()
             ]);
+            $form->setAttribute('action', $this->url()->fromRoute('files', array('action' => 'download', 'link' => $file->getLink())));
             $view = new ViewModel(['form' => $form, 'file' => $file]);
 
             if (!$file->getProtected()) {
@@ -40,8 +43,8 @@ class FileController extends AbstractActionController
         return $view;
     }
 
-    public function downloadAction() {
-        $sl = $this->getServiceLocator();
+    public function downloadAction()
+    {
         $request = $this->getRequest();
         $post = $request->getPost();
 
@@ -49,11 +52,13 @@ class FileController extends AbstractActionController
             return $this->redirect()->toRoute('index');
         }
 
-        $file = AppHelper::getFileById($sl, $post['id']);
+        $fileManager = AppHelper::fileManagerInstance();
+        $file = $fileManager->getFileById($post['id']);
         if ($file->getProtected() == 1) {
             if (md5($post['password'] . $file->getHash()) != $file->getPass()) {
                 $form = new DownloadForm();
                 $form->setData($post);
+                $form->setAttribute('action', $this->url()->fromRoute('files', array('action' => 'download', 'link' => $file->getLink())));
                 $view = new ViewModel(['form' => $form, 'file' => $file, 'failMessage' => 'неверный пароль']);
                 $view->setTemplate('application/file/download_protected.phtml');
 
@@ -62,24 +67,15 @@ class FileController extends AbstractActionController
             }
         }
 
-        // Увеличиваем счетчик скачиваний на единицу
-        // todo: вынести в отдельный метод класса Files, либо сделать класс FileManager, который
-        // todo: инициализирует EntityManager и инкапсулирует весь функцонал по файлам
-        $downloadCount = $file->getDownloadCount();
-        $file->setDownloadCount($downloadCount + 1);
-        $entityManager = $sl->get('\Doctrine\ORM\EntityManager');
-        $entityManager->persist($file);
-        $entityManager->flush();
+        $fileManager->increaseDownloadCount($file);
 
-        $view = $this->download($file);
-
-        return $view;
+        return $this->getDownloadView($file);
     }
 
-    private function download($file) {
+    private function getDownloadView($file)
+    {
         if ($file !== false) {
-            $sl = $this->getServiceLocator();
-            $filePath = $file->getFullPath($sl);
+            $filePath = AppHelper::fileManagerInstance()->getFullPath($file);
             $view = new ViewModel([
                 'file'     => $file,
                 'filePath' => $filePath

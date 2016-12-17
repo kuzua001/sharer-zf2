@@ -47,7 +47,7 @@ return array(
                 'type' => 'segment',
                 'options' => array(
                     'may_terminate' => true,
-                    'route'    => '/[index[/:action]]',
+                    'route'    => '/[index[/:action]][/]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Index',
@@ -61,7 +61,7 @@ return array(
             'files' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/files/:link[/:action]',
+                    'route'    => '/files/:link[/:action][/]',
                     'constraints' => array(
                         'link' => '[a-zA-Z0-9_-]*',
                     ),
@@ -75,9 +75,9 @@ return array(
             'admin' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/admin[/:controller[/:action]]',
+                    'route'    => '/admin[/:action][/]',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Application\Controller\Admin',
+                        '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Admin',
                         'action'        => 'index',
                     ),
@@ -112,7 +112,7 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\File' => 'Application\Controller\FileController',
-            'Application\Controller\Admin\Admin' => 'Application\Controller\Admin\AdminController',
+            'Application\Controller\Admin' => 'Application\Controller\AdminController',
         ),
     ),
     'view_manager' => array(

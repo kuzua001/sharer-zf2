@@ -9,6 +9,7 @@
 
 namespace Application;
 
+use Application\Core\AppHelper;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
@@ -25,11 +26,11 @@ class Module
         $request = $sm->get('request');
         $matchedRoute = $router->match($request);
 
+        AppHelper::init($sm);
+
         if ($matchedRoute) {
             $params = $matchedRoute->getParams();
-
             $controller = $params['controller'];
-            $action = $params['action'];
 
             $e->getViewModel()->setVariables(
                 array(
